@@ -9,6 +9,7 @@ const ComposeForm = () =>{
     const [messageSubject, setMessageSubject] = useState("");
     const [messageBody, setMessageBody] = useState("");
     const [contacts, setContacts] = useState([]);
+    const [spinner, setSpinner] = useState("none");
 
     const handleMessageSubject = (e) => {
         setMessageSubject(e.target.value);
@@ -29,16 +30,17 @@ const ComposeForm = () =>{
         setMessageSubject("");
         setMessageBody("");
     }
-    
+
     const handleTemplate = async (e) => {
         e.preventDefault();
-        try {
+        try {    
             const body =  { messageSubject, messageBody, contacts };
             const response = await fetch("http://localhost:5000/templates", {
                 method: "POST",
                 headers: {"content-type": "application/json"},
                 body: JSON.stringify(body)
             });
+
         } catch (err) {
             console.error(err.message);
         }
@@ -50,6 +52,7 @@ const ComposeForm = () =>{
     const handleSend = async (e) => {
         e.preventDefault();
         try {
+            setSpinner("display");
             const splitContacts = contacts.split(";");
             const body = {messageBody, splitContacts};
             const response = await fetch("http://localhost:5000/messages/send_message", {
@@ -69,8 +72,8 @@ const ComposeForm = () =>{
 
             setContacts("");
             setMessageSubject("");
-            setMessageBody("");
-           
+            setMessageBody(""); 
+            setSpinner("none"); 
         } catch (err) {
             console.error(err.message)
         }
@@ -79,6 +82,11 @@ const ComposeForm = () =>{
     return(   
         <>    
             <div className="main-message">   
+            <div className="text-center"  style={{display: `${spinner}`}}>
+            <div className="spinner-border" role="status">
+                <span className="sr-only">Loading...</span>
+            </div>
+            </div>
                                                       
                 <div className="form-section">
                     <form>
