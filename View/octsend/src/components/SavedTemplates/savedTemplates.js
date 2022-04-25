@@ -1,13 +1,16 @@
 import '../compose/compose.css';
 import { useState, useEffect } from 'react';
+import EditTemplate from './EditTemplate';
 
 const SavedTemplates = () =>{
     const [templates, setTemplates] = useState([]);
+    const [spinner, setSpinner] = useState("display");
 
     const getTemplates = async () => {
         try {
             const response = await fetch("http://localhost:5000/templates");
             const jsonData = await response.json();
+            setSpinner("none")
             
             setTemplates(jsonData);
 
@@ -20,6 +23,12 @@ const SavedTemplates = () =>{
 
     return(
         <div className="container-history">
+
+        <div className="text-center" style={{display: `${spinner}`}}>
+        <div className="spinner-border" role="status">
+            <span className="sr-only">Loading...</span>
+        </div>
+    </div>
         {
             templates.map(template => (
                 <div className="hisory-message-section" key={template.template_id}>
@@ -31,7 +40,7 @@ const SavedTemplates = () =>{
                     </div>                    
                 </div>
                 <div className="btn">
-                    <button>Edit</button>
+                    <EditTemplate template={template}/>
                     <button>Send Now</button>
                 </div>                
             </div>
