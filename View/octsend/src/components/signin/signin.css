@@ -50,15 +50,17 @@
  }
  .signin-form input{
     width: 280px;
-    height: 28px;
-     
+    height: 28px;  
     
 }
+
+
 
 .signin-form input::placeholder{
     color: #009D96 ;
     font-family: 'Inter', sans-serif;
     margin-left: 55px;
+    font-size: 12px;
 }
 
 /* input:focus{
@@ -97,6 +99,7 @@
      font-family: 'Inter', sans-serif;
      font-weight: 600;
      text-transform: uppercase;
+     font-size: 12px;
 
  }
 
